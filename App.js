@@ -8,6 +8,9 @@ import { useForm } from "react-hook-form";
 var num;
 var pass;
 var name;
+var postId={};
+
+
 function Signup({navigation}){
   const { setValue, handleSubmit } = useForm();
   const onSubmit = useCallback(formData => {
@@ -48,6 +51,18 @@ function Register({navigation}){
   const onSubmit = useCallback(formData => {
       name=formData['name']
       console.log(name,num,pass);
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "mob": num, "name": name })
+      };
+      console.log(requestOptions.body);
+      fetch('https://ap-south-1.aws.data.mongodb-api.com/app/smarttraveller-zapex/endpoint/signup', requestOptions)
+      .then(response => response.json())
+      // .then(data => {console.log(data.id)});
+      
+      console.log(postId);
   }, []);
   const onChangeField = useCallback(
     name => text => {
@@ -60,7 +75,7 @@ function Register({navigation}){
         <Pressable onPress={() => navigation.navigate('Signup')} ><Image style={styles.img} source={require('./assets/ico-back.png')}></Image></Pressable>
         <Text style={styles.head}>Register</Text>
         <TextInput  style={styles.input}
-          autoCompleteType="text"
+
           placeholder="Username"
           onChangeText={onChangeField('name')}
         />
