@@ -50,19 +50,18 @@ function Register({navigation}){
   const { handleSubmit, setValue } = useForm();
   const onSubmit = useCallback(formData => {
       name=formData['name']
-      console.log(name,num,pass);
-
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "mob": num, "name": name })
+        body: JSON.stringify({ mob: parseInt(num), name: name })
       };
-      console.log(requestOptions.body);
-      fetch('https://ap-south-1.aws.data.mongodb-api.com/app/smarttraveller-zapex/endpoint/signup', requestOptions)
-      .then(response => response.json())
-      // .then(data => {console.log(data.id)});
-      
-      console.log(postId);
+      console.log((requestOptions.body));
+      fetch('https://ap-south-1.aws.data.mongodb-api.com/app/smarttraveller-zapex/endpoint/signup',requestOptions)
+      .then(response => console.log(JSON.stringify(response)))
+      .then(data => console.log(JSON.stringify(data)))
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
   const onChangeField = useCallback(
     name => text => {
